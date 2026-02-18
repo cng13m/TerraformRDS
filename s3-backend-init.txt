@@ -1,0 +1,5 @@
+terraform init \
+  -backend-config="bucket=terraformawsdemo-18-02-2026" \
+  -backend-config="key=secure-rds/dev/terraform.tfstate" \
+  -backend-config="region=us-east-1" \
+  -backend-config="encrypt=true"
