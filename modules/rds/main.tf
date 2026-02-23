@@ -1,19 +1,3 @@
-variable "project_name" { type = string }
-variable "environment" { type = string }
-variable "private_subnet_ids" { type = list(string) }
-variable "rds_sg_id" { type = string }
-variable "db_name" { type = string }
-variable "db_username" { type = string }
-variable "db_port" { type = number }
-variable "db_instance_class" { type = string }
-variable "db_allocated_storage" { type = number }
-variable "db_max_allocated_storage" { type = number }
-variable "backup_retention_period" { type = number }
-variable "deletion_protection" { type = bool }
-variable "skip_final_snapshot" { type = bool }
-variable "publicly_accessible" { type = bool }
-variable "multi_az" { type = bool }
-
 resource "aws_db_subnet_group" "this" {
   name       = "${var.project_name}-${var.environment}-db-subnet-group"
   subnet_ids = var.private_subnet_ids
@@ -39,6 +23,7 @@ resource "aws_db_instance" "this" {
   backup_retention_period      = var.backup_retention_period
   deletion_protection          = var.deletion_protection
   skip_final_snapshot          = var.skip_final_snapshot
+  final_snapshot_identifier    = var.skip_final_snapshot ? null : coalesce(var.final_snapshot_identifier, "${var.project_name}-${var.environment}-final-snapshot")
   publicly_accessible          = var.publicly_accessible
   multi_az                     = var.multi_az
   auto_minor_version_upgrade   = true

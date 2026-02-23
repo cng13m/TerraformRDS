@@ -1,9 +1,3 @@
-variable "project_name" { type = string }
-variable "environment" { type = string }
-variable "vpc_id" { type = string }
-variable "admin_cidr" { type = string }
-variable "db_port" { type = number }
-
 resource "aws_security_group" "bastion" {
   name        = "${var.project_name}-${var.environment}-bastion-sg"
   description = "Allow SSH from admin IP"

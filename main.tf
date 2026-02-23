@@ -46,19 +46,20 @@ module "bastion" {
 module "rds" {
   source = "./modules/rds"
 
-  project_name             = var.project_name
-  environment              = var.environment
-  private_subnet_ids       = module.network.private_subnet_ids
-  rds_sg_id                = module.security.rds_sg_id
-  db_name                  = var.db_name
-  db_username              = var.db_username
-  db_port                  = var.db_port
-  db_instance_class        = var.db_instance_class
-  db_allocated_storage     = var.db_allocated_storage
-  db_max_allocated_storage = var.db_max_allocated_storage
-  backup_retention_period  = var.backup_retention_period
-  deletion_protection      = var.deletion_protection
-  skip_final_snapshot      = var.skip_final_snapshot
-  publicly_accessible      = false
-  multi_az                 = false
+  project_name              = var.project_name
+  environment               = var.environment
+  private_subnet_ids        = module.network.private_subnet_ids
+  rds_sg_id                 = module.security.rds_sg_id
+  db_name                   = var.db_name
+  db_username               = var.db_username
+  db_port                   = var.db_port
+  db_instance_class         = var.db_instance_class
+  db_allocated_storage      = var.db_allocated_storage
+  db_max_allocated_storage  = var.db_max_allocated_storage
+  backup_retention_period   = var.backup_retention_period
+  deletion_protection       = var.deletion_protection
+  skip_final_snapshot       = var.skip_final_snapshot
+  final_snapshot_identifier = var.final_snapshot_identifier
+  publicly_accessible       = false
+  multi_az                  = false
 }

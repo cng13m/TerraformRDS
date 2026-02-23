@@ -1,12 +1,3 @@
-variable "project_name" { type = string }
-variable "environment" { type = string }
-variable "subnet_id" { type = string }
-variable "vpc_id" { type = string }
-variable "bastion_sg_id" { type = string }
-variable "instance_type" { type = string }
-variable "key_name" { type = string }
-variable "root_volume_size_gb" { type = number }
-
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["137112412989"]
@@ -22,6 +13,8 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
+# Only EC2 instances are allowed to use this role 
+
 data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -33,10 +26,14 @@ data "aws_iam_policy_document" "ec2_assume_role" {
   }
 }
 
+# Create IAM role and instance profile for bastion host to allow SSM access
+
 resource "aws_iam_role" "bastion" {
   name               = "${var.project_name}-${var.environment}-bastion-role"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
 }
+
+# Grants the bastion EC2 role SSM permissions so you can connect/manage it via AWS Systems Manager.
 
 resource "aws_iam_role_policy_attachment" "ssm_core" {
   role       = aws_iam_role.bastion.name

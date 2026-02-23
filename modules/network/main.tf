@@ -1,14 +1,3 @@
-variable "project_name" { type = string }
-variable "environment" { type = string }
-variable "vpc_cidr" { type = string }
-variable "public_subnet_cidr" { type = string }
-variable "private_subnet_cidr" { type = string }
-variable "private_subnet_2_cidr" { type = string }
-variable "availability_zone" { type = string }
-variable "availability_zone_2" { type = string }
-variable "admin_cidr" { type = string }
-variable "enable_nat_gateway" { type = bool }
-
 resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true

@@ -11,7 +11,7 @@ variable "project_name" {
 }
 
 variable "environment" {
-  description = "Environment label (e.g., dev, test, prod)"
+  description = "Environment label"
   type        = string
   default     = "dev"
 }
@@ -132,4 +132,10 @@ variable "skip_final_snapshot" {
   description = "Whether to skip final snapshot on destroy"
   type        = bool
   default     = false
+}
+
+variable "final_snapshot_identifier" {
+  description = "Optional final snapshot identifier when skip_final_snapshot is false. If unset, a default value based on project/environment is used."
+  type        = string
+  default     = null
 }

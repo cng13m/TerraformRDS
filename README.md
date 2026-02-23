@@ -27,8 +27,6 @@ This project deploys a secure AWS environment for PostgreSQL on Amazon RDS with 
 
 ## Project Structure
 
-```text
-.
 |-- main.tf
 |-- provider.tf
 |-- versions.tf
@@ -39,8 +37,7 @@ This project deploys a secure AWS environment for PostgreSQL on Amazon RDS with 
 |   |-- network/
 |   |-- security/
 |   |-- bastion/
-|   \-- rds/
-```
+|   |-- rds/
 
 ## Prerequisites
 
@@ -106,13 +103,21 @@ Get the RDS master password from Secrets Manager:
 
 ## 5) Destroy
 
-If `deletion_protection = true`, set it to `false` first and apply.
+If `deletion_protection = true`, disable it first and apply:
 
-Then:
+```bash
+terraform apply -var="deletion_protection=false"
+```
+
+Then destroy:
 
 ```bash
 terraform destroy
 ```
+
+Notes:
+- If `skip_final_snapshot = false`, Terraform will provide `final_snapshot_identifier` automatically (or you can set one explicitly in `terraform.tfvars`).
+- If you want to skip creating a final snapshot, use `-var="skip_final_snapshot=true"` during destroy.
 
 ## Security Practices Implemented
 
@@ -128,4 +133,4 @@ terraform destroy
 ## Notes
 
 - Free-tier oriented defaults are used where possible (`t3.micro`, `db.t3.micro`, minimal storage).
-- If your assignment rubric strictly requires one private subnet, keep this implementation note: AWS RDS subnet groups generally require subnets in at least two AZs for successful creation.
+- AWS RDS subnet groups generally require subnets in at least two AZs for successful creation. This project uses two private subnets to satisfy that requirement while keeping RDS private.
